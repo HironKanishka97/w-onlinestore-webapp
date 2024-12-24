@@ -1,0 +1,9 @@
+.body{
+    font-family: "Agency FB", sans-serif;
+}
+
+label{
+    background-color: #d5d5d5;
+    padding-left: 15px;
+    border-radius: 10px;
+}
