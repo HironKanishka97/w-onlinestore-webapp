@@ -2,22 +2,23 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-import {NavLink, Outlet, useNavigate} from "react-router-dom";
-import {useEffect} from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "./hooks/typedHooks";
+import { removeToken } from "./store/slices/jwtSlice";
+import axios from "axios";
+import { useEffect } from "react";
+import useAxiosInterceptor from "./hooks/useAxiosInterceptor";
+
 
 function App() {
-
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const item = localStorage.getItem('jwtToken');
-        if (!item) {
-            navigate('/login')
-        }
-    }, []);
+    //request intercepting
+    useAxiosInterceptor();
 
     function logOut() {
-        localStorage.removeItem('jwtToken');
+        dispatch(removeToken());
         navigate('/login')
     }
 
@@ -29,7 +30,7 @@ function App() {
                     <div className="container-fluid">
                         <div>
                             <img src="../public/WONLINESTORE.png"
-                                 style={{width: '70px'}}></img>
+                                style={{ width: '70px' }}></img>
                         </div>
                         <div className="collapse navbar-collapse" id="navbarNav">
                             <ul className="navbar-nav">
@@ -58,12 +59,12 @@ function App() {
                                 <i className="bi bi-cart-fill"></i></button>
                         </NavLink>
                         <button className="btn btn-outline-danger d-inline-flex align-items-center gap-1"
-                                onClick={()=>logOut()}>Logout
-                            <i className="bi bi-box-arrow-right"/>
+                            onClick={() => logOut()}>Logout
+                            <i className="bi bi-box-arrow-right" />
                         </button>
                     </div>
                 </nav>
-                <Outlet/>
+                <Outlet />
             </div>
         </>
     )

@@ -5,9 +5,15 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import axios from "axios";
 import {API_DATA} from "../constants/constants.ts";
 import {User} from "../types/User.ts";
+import { useAppDispatch } from "../hooks/typedHooks.ts";
+import { saveToken } from "../store/slices/jwtSlice.ts";
+import MessageModal from "../util/MessageModal.tsx";
+import { useState } from "react";
 
 function LoginPage() {
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    
 
     const schema = z.object({
         username: z.string().min(3, {message: "Has to be more than 3 characters"}),
@@ -48,7 +54,8 @@ function LoginPage() {
             const res = await axios.post(url, user)
             alert(res.data.message);
             if(res.data.code ===200) {
-                localStorage.setItem('jwtToken', res.data.data.token)
+                dispatch(saveToken(res.data.data.token))
+                // localStorage.setItem('jwtToken', res.data.data.token)
                 navigate('/app')
                 reset();
             }
@@ -99,6 +106,7 @@ function LoginPage() {
                     </div>
                 </form>
             </div>
+            {/* <MessageModal title={''} message={''}  show={false}  /> */}
         </div>
 
     );

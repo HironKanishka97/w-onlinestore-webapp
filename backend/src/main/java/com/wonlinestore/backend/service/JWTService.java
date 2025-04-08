@@ -37,7 +37,7 @@ public class JWTService {
                 .add(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60*2))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60*2))// Token expires in 2 hours
                 .and()
                 .signWith(getKey())
                 .compact();
@@ -67,7 +67,7 @@ public class JWTService {
         final String userName = extractUserName(token);
         return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
     private Date extractExpiration(String token) {

@@ -3,9 +3,9 @@ import { Product } from "../types/Product.ts";
 import { API_DATA } from "../constants/constants.ts";
 import { CartItem } from "../types/CartItem.ts";
 import axios from "axios";
-import { useAppDispatch, useAppSelector } from "../hooks/typedHooks.ts";
+import { useAppDispatch } from "../hooks/typedHooks.ts";
 import { addCartItem } from "../store/slices/cartSlice.ts";
-import store from "../store/store.ts";
+
 
 const HomePage = () => {
 
@@ -42,9 +42,9 @@ const HomePage = () => {
                 <div className="row">
                     {products.map((product: Product, index: number) => (
                         <div className="col-2" key={index}>
-                            <div className="card w-100">
+                            <div className="card w-100 h-100">
 
-                                <img src={atob(product.image)} style={{ maxWidth: '150px', maxHeight: '120px' }}
+                                <img src={atob(product.image)} style={{ width: '150px', height: '120px' }}
                                     className="card-img-top align-self-center" alt="product-image" />
                                 <div className="card-body">
                                     <h5 className="card-title">{product.name}</h5>
