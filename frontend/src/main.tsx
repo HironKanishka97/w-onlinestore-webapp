@@ -8,12 +8,13 @@ import ErrorPage from "./pages/ErrorPage.tsx";
 import ProductPage from "./pages/ProductPage.tsx";
 import ClientPage from "./pages/ClientPage.tsx";
 import CartPage from "./pages/CartPage.tsx";
-import store from "./store/store.ts";
+import store, { persistor } from "./store/store.ts";
 import {Provider} from 'react-redux'
 import ClientOrderPage from "./pages/ClientOrderPage.tsx";
 import CategoryPage from "./pages/CategoryPage.tsx";
 import axios from "axios";
 import LoginPage from "./pages/LoginPage.tsx";
+import { PersistGate } from 'redux-persist/integration/react'
 
 axios.interceptors.request.use((request) => {
     const token = localStorage.getItem('jwtToken');
@@ -79,6 +80,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <Provider store={store}><RouterProvider router={router}/></Provider>
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+            <RouterProvider router={router}/>
+            </PersistGate>
+            </Provider>
     </StrictMode>,
 )
