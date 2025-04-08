@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { removeToken } from '../store/slices/jwtSlice';
 import { useAppDispatch, useAppSelector } from './typedHooks';
+import showAlert from '../util/showAlert';
 
 
 const useAxiosInterceptor = () => {
@@ -21,6 +22,7 @@ const useAxiosInterceptor = () => {
             },
             (error) => {
                 console.log(error);
+                showAlert('Authorization', 'Server Error Occured', 'error', 'Close')
                 return Promise.reject(error);
             }
         );
@@ -31,7 +33,9 @@ const useAxiosInterceptor = () => {
             (error) => {
                 if (error.response && (error.response.status === 401 || error.response.status === 403)) {
                     dispatch(removeToken());
+                    showAlert('Session Info', 'Expired.Please Log in again.', 'error', 'Close')
                     navigate('/login');
+
                 }
                 return Promise.reject(error);
             }

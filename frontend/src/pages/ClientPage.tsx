@@ -5,6 +5,7 @@ import {Client} from "../types/Client.ts";
 import {z} from 'zod';
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+import showAlert from "../util/showAlert.ts";
 
 
 function ClientPage() {
@@ -40,7 +41,7 @@ function ClientPage() {
                 const res = await axios.get(url + 'client/getAllClients');
                 setClients(res.data.data);
             } catch (error) {
-                alert('Clients Not Fetched Successfully');
+                showAlert('Clients Fetching Status', 'Failed.', 'error', 'Close')
                 console.log(error);
             }
         }
@@ -50,11 +51,11 @@ function ClientPage() {
     const formSubmit: SubmitHandler<Formfields> = async (data) => {
         try {
             const res = await axios.post(url + 'client/saveClient', data);
-            alert(res.data.message);
+            showAlert('Client Add', 'Success.', 'success', 'Close')
             setLoad(!load)
             cancelHandle(); //reset form
         } catch (e) {
-            alert('Save Unsuccessful');
+            showAlert('Client Add', 'Unsuccess.', 'error', 'Close')
             console.log(e);
         }
 
@@ -65,11 +66,11 @@ function ClientPage() {
         try {
             const updateClient =new Client(client.id ,getValues('name'),getValues('address'),getValues('contact'))
             const res = await axios.put(url + `client/updateClient/${client.id}`, updateClient);
-            alert(res.data.message);
+            showAlert('Client Add', 'Success.', 'success', 'Close')
             setLoad(!load)
             cancelHandle(); //reset form
         } catch (error) {
-            alert('Update Unsuccessful');
+            showAlert('Client Update', 'Unsuccess.', 'error', 'Close')
             console.log(error);
         }
 
@@ -78,11 +79,11 @@ function ClientPage() {
     async function deleteClient(client: Client) {
         try {
             const res = await axios.delete(url + `client/deleteClient/${client.id}`);
-            alert(res.data.message);
+            showAlert('Client Add', 'Success.', 'success', 'Close')
             setLoad(!load)
             cancelHandle(); //reset form
         } catch (error) {
-            alert('Delete Unsuccessful');
+            showAlert('Client Delete', 'Unsuccess.', 'error', 'Close')
             console.log(error);
         }
     }

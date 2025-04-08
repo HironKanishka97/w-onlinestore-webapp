@@ -5,6 +5,7 @@ import { CartItem } from "../types/CartItem.ts";
 import axios from "axios";
 import { useAppDispatch } from "../hooks/typedHooks.ts";
 import { addCartItem } from "../store/slices/cartSlice.ts";
+import showAlert from "../util/showAlert.ts";
 
 
 const HomePage = () => {
@@ -18,7 +19,7 @@ const HomePage = () => {
                 const response = await axios.get(API_DATA.BASE_URL + 'product/getAllProducts');
                 setProducts(response.data.data);
             } catch (e) {
-                alert("Error getting products");
+                showAlert('Products Fetching Status', 'Failed.', 'error', 'Close')
                 console.log(e);
             }
         }
@@ -29,7 +30,7 @@ const HomePage = () => {
     function addToCartHandle(product: Product) {
         const cartItem = new CartItem(0, product, 1, product.price)
         dispatch(addCartItem(cartItem));
-        alert("Added To Cart");
+        showAlert('Cart Status', 'Added Successfully.', 'success', 'Close')
 
     }
 

@@ -8,6 +8,7 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {ClientOrder} from "../types/ClientOrder.ts";
 import {Client} from "../types/Client.ts";
+import showAlert from "../util/showAlert.ts";
 
 function ClientOrderPage() {
     const url = API_DATA.BASE_URL;
@@ -33,7 +34,7 @@ function ClientOrderPage() {
                 setProducts(response.data.data);
 
             } catch (e) {
-                alert("Error getting products");
+                showAlert('Products Fetching Status', 'Failed.', 'error', 'Close')
                 console.log(e);
             }
         }
@@ -72,7 +73,7 @@ function ClientOrderPage() {
                 const response = await axios.get(API_DATA.BASE_URL + 'clientOrder/getAllClientOrders');
                 setClientOrders(response.data.data);
             } catch (e) {
-                alert("Error getting clientOrders");
+                showAlert('Client Orders Fetching Status', 'Failed.', 'error', 'Close')
                 console.log(e);
             }
         }
@@ -85,7 +86,7 @@ function ClientOrderPage() {
                 const response = await axios.get(API_DATA.BASE_URL + 'client/getAllClients');
                 setClients(response.data.data);
             } catch (e) {
-                alert("Error getting clients");
+                showAlert('Clients Fetching Status', 'Failed.', 'error', 'Close')
                 console.log(e);
             }
         }
@@ -133,12 +134,12 @@ function ClientOrderPage() {
 
         try {
             const res = await axios.post(url + 'clientOrder/saveClientOrder', co)
-            alert(res.data.message)
+            showAlert('Client Order Add', 'Success.', 'success', 'Close')
             setLoad(!load);
             cancelHandle();
         } catch (e) {
             console.log(e);
-            alert("Unsuccessful")
+            showAlert('Client Order Add', 'Unsuccess.', 'error', 'Close')
         }
 
 
@@ -152,12 +153,12 @@ function ClientOrderPage() {
 
             const res =
                 await axios.put(url + `clientOrder/updateClientOrder/${clientOrder.id}`, updateClientOrder);
-            alert(res.data.message);
+                showAlert('Client Order Update', 'Success.', 'success', 'Close')
             setLoad(!load)
             setIsUpdate(false)
             cancelHandle(); //reset form
         } catch (error) {
-            alert('Update Unsuccessful');
+            showAlert('Client Order Update', 'Unsuccess.', 'error', 'Close')
             console.log(error);
         }
 
@@ -166,12 +167,12 @@ function ClientOrderPage() {
     async function deleteClientOrder(clientOrder: ClientOrder) {
         try {
             const res = await axios.delete(url + `clientOrder/deleteClientOrder/${clientOrder.id}`);
-            alert(res.data.message);
+            showAlert('Client Order Delete', 'Success.', 'success', 'Close')
             setLoad(!load)
             setIsUpdate(false)
             cancelHandle(); //reset form
         } catch (error) {
-            alert('Delete Unsuccessful');
+            showAlert('Client Order Delete', 'Unsuccess.', 'error', 'Close')
             console.log(error);
         }
     }

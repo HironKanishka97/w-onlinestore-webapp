@@ -5,6 +5,7 @@ import {Category} from "../types/Category.ts";
 import axios from "axios";
 import {API_DATA} from "../constants/constants.ts";
 import {useEffect, useState} from "react";
+import showAlert from "../util/showAlert.ts";
 
 
 function CategoryPage() {
@@ -20,7 +21,7 @@ function CategoryPage() {
                 const res = await axios.get(API_DATA.BASE_URL + 'category/getAllCategories');
                 setCategories(res.data.data);
             } catch (error) {
-                console.log(error);
+                showAlert('Categories Fetching Status', 'Failed.', 'error', 'Close')
             }
         }
         getCats();
@@ -50,11 +51,11 @@ function CategoryPage() {
 
         try {
             const res = await axios.post(API_DATA.BASE_URL + 'category/saveCategory', category)
-            alert(res.data.message)
+            showAlert('Category Add', 'Success.', 'success', 'Close')
             setLoad(!load);
             cancelHandle(); //reset form
         } catch (error) {
-            alert("Not Successful")
+            showAlert('Category Add', 'Unsuccess.', 'error', 'Close')
             console.log(error);
         }
 
@@ -70,11 +71,11 @@ function CategoryPage() {
             const {name} = getValues();
             const updateCat:Category =new Category(category.id ,name)
             const res = await axios.put(API_DATA.BASE_URL + `category/updateCategory/${category.id}`, updateCat)
-            alert(res.data.message)
+            showAlert('Category Update', 'Success.', 'success', 'Close')
             setLoad(!load);
             cancelHandle(); //reset form
         } catch (error) {
-            alert("Not Successful")
+            showAlert('Category Update', 'Unsuccess.', 'error', 'Close')
             console.log(error);
         }
     }
@@ -82,11 +83,11 @@ function CategoryPage() {
     async function deleteCategory(category: Category) {
         try {
             const res = await axios.delete(API_DATA.BASE_URL + `category/deleteCategory/${category.id}`);
-            alert(res.data.message)
+            showAlert('Category Delete', 'Success.', 'success', 'Close')
             setLoad(!load);
             cancelHandle(); //reset form
         } catch (error) {
-            alert("Not Successful")
+            showAlert('Category Update', 'Unsuccess.', 'error', 'Close')
             console.log(error);
         }
     }

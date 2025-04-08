@@ -6,6 +6,7 @@ import {Category} from "../types/Category.ts";
 import {z} from "zod";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+import showAlert from "../util/showAlert.ts";
 
 
 function ProductPage() {
@@ -25,7 +26,7 @@ function ProductPage() {
                 setProducts(response.data.data);
                 setBase64Image(DEFAULT_IMAGE)
             } catch (e) {
-                alert("Error getting products");
+                showAlert('Products Fetching Status', 'Failed.', 'error', 'Close')
                 console.log(e);
             }
         }
@@ -38,7 +39,7 @@ function ProductPage() {
                 const response = await axios.get(API_DATA.BASE_URL + 'category/getAllCategories');
                 setCategories(response.data.data);
             } catch (e) {
-                alert("Error getting products");
+                showAlert('Categories Fetching Status', 'Failed.', 'error', 'Close')
                 console.log(e);
             }
         }
@@ -105,12 +106,12 @@ function ProductPage() {
             btoa(base64Image));
         try {
             const res = await axios.post(url + 'product/saveProduct', productToSave)
-            alert(res.data.message)
+            showAlert('Product Add', 'Success.', 'success', 'Close')
             setLoad(!load);
             cancelHandle();
         } catch (e) {
             console.log(e);
-            alert("Unsuccessful")
+            showAlert('Product Add', 'Unsuccess.', 'error', 'Close')
         }
 
 
@@ -122,13 +123,13 @@ function ProductPage() {
             const updateProduct = new Product(product.id, getValues('name'),getValues('brand'), getValues('description'),
                 cat,getValues('price'),getValues('discount'),getValues('rop'),getValues('quantity'), btoa(base64Image));
             const res = await axios.put(url + `product/updateProduct/${product.id}`, updateProduct);
-            alert(res.data.message);
+            showAlert('Product Update', 'Success.', 'success', 'Close');
             setLoad(!load)
             setIsUpdate(false)
             setImageLoaded(false)
             cancelHandle(); //reset form
         } catch (error) {
-            alert('Update Unsuccessful');
+            showAlert('Product Update', 'Unsuccess.', 'error', 'Close')
             console.log(error);
         }
 
@@ -137,13 +138,13 @@ function ProductPage() {
     async function deleteProduct(product: Product) {
         try {
             const res = await axios.delete(url + `product/deleteProduct/${product.id}`);
-            alert(res.data.message);
+            showAlert('Product Delete', 'Success.', 'success', 'Close');
             setLoad(!load)
             setIsUpdate(false)
             setImageLoaded(false)
             cancelHandle(); //reset form
         } catch (error) {
-            alert('Delete Unsuccessful');
+            showAlert('Product Delete', 'Unsuccess.', 'error', 'Close')
             console.log(error);
         }
     }
