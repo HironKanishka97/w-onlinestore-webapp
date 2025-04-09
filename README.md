@@ -3,7 +3,7 @@
 This is a **Sample Full Stack Web Application** for **Wonlinestore**, an retail store . The project utilizes **Spring Boot** for the backend, **React** ⚛️ for the frontend, and **Spring Security with JWT Authentication** for secure user authentication and authorization.
 
 ## Technologies Used
-- **Frontend**: React with Bootstrap 
+- **Frontend**: React with Bootstrap , redux toolkit
 - **Backend**: Spring Boot (Java)
 - **Authentication**: Spring Security with JWT (JSON Web Token)
 - **Database**: MySQL 
